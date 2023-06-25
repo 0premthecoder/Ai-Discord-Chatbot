@@ -38,7 +38,7 @@ class MyClient(discord.Client):
                     presence_penalty=0
                 )
                 messageToSend = response.choices[0].text
-                await channel.send(f"{message.author}, {messageToSend}")
+                await channel.send(f"{messageToSend}")
         
 
 
