@@ -25,7 +25,7 @@ class MyClient(discord.Client):
 
     async def on_message(self, message):
         print(f'Message from {message.author}: {message.content}')
-        if self.user!=message.author:
+        if self.user != message.author:
             if self.user in message.mentions:
                 channel = message.channel
                 response = openai.Completion.create(
@@ -37,8 +37,8 @@ class MyClient(discord.Client):
                     frequency_penalty=0,
                     presence_penalty=0
                 )
-                messageTosend = response.choices[0].message
-                await channel.send(messageTosend)
+                messageToSend = response.choices[0].text
+                await channel.send(f"{message.author}, {messageToSend}")
         
 
 
