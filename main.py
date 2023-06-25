@@ -9,19 +9,38 @@
 
 import discord
 import os
+import openai
+
+
 from dotenv import load_dotenv
 
 load_dotenv()
 token = os.getenv("DISCORD_TOKEN")
-print(token)
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+
 class MyClient(discord.Client):
     async def on_ready(self):
         print(f'Logged on as {self.user}!')
 
     async def on_message(self, message):
         print(f'Message from {message.author}: {message.content}')
-        channel = message.channel
-        await channel.send('Hello I am Yo Boy!')
+        if self.user!=message.author:
+            if self.user in message.mentions:
+                channel = message.channel
+                response = openai.Completion.create(
+                    model="text-davinci-003",
+                    prompt=f"{message.content}",
+                    temperature=1,
+                    max_tokens=256,
+                    top_p=1,
+                    frequency_penalty=0,
+                    presence_penalty=0
+                )
+                messageTosend = response.choices[0].message
+                await channel.send(messageTosend)
+        
+
 
 intents = discord.Intents.default()
 intents.message_content = True
