@@ -8,7 +8,12 @@
 # This example requires the 'message_content' intent.
 
 import discord
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+token = os.getenv("DISCORD_TOKEN")
+print(token)
 class MyClient(discord.Client):
     async def on_ready(self):
         print(f'Logged on as {self.user}!')
@@ -22,4 +27,4 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 client = MyClient(intents=intents)
-client.run('MTEyMjM0MzM2NzU5MDgyNjA5NQ.G_1Q3D.CkfvI0ILb6ZAqnEL3GF3zwHEMkFtwQIbEkfczc')
+client.run(token)
